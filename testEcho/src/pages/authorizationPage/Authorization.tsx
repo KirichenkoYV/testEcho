@@ -3,16 +3,19 @@ import MaskedInput from "./components/MaskedPhoneInput";
 
 import style from "./Authorization.module.scss";
 import { getUser } from "../../slice/userSlice";
+import { useAppDispatch } from "../../store/Store";
 
 function Authorization() {
   const dispatch = useAppDispatch();
 
-  const [phone, setPhone] = useState(localStorage.getItem("formphone") || "");
+  const [phone, setPhone] = useState<string>(
+    localStorage.getItem("formphone") || ""
+  );
   const [statusRememberMe, setstatusRememberMe] = useState(
     checkStatus() || false
   );
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState<string>("");
 
   function checkStatus() {
     return localStorage.getItem("statusRememberMe") === "false" ? false : true;
@@ -38,14 +41,14 @@ function Authorization() {
     setShowPassword((prev) => !prev);
   }
 
-  function handleLogin(event: React.ChangeEvent<HTMLButtonElement>): void {
-    event.preventDefault();
-    dispatch(getUser(phone, password));
+  function handleLogin(): void {
+    const dataAuth = { phone: phone, password: password };
+    dispatch(getUser(dataAuth));
   }
 
   return (
     <div className={style.Authorization}>
-      <form className={style.AuthorizationForm} method="POST">
+      <div className={style.AuthorizationForm}>
         <div className={style.AuthorizationTitle}>Авторизация</div>
         <MaskedInput
           id={"phone-input"}
@@ -79,7 +82,7 @@ function Authorization() {
         </label>
         <button className={style.AuthorizationPassword}>Забыли пароль?</button>
         <button className={style.AuthorizationReq}>Регистрация </button>
-      </form>
+      </div>
     </div>
   );
 }

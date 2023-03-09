@@ -3,7 +3,7 @@ import React from "react";
 
 import style from "./MaskedPhoneInput.module.scss";
 
-interface MaskedProps {
+ interface MaskedProps {
   id: string;
   name: string;
   required: boolean;
