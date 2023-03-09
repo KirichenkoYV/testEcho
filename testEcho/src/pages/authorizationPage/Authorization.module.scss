@@ -1,0 +1,38 @@
+.Authorization {
+    width: 20em;
+    height: 30em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+   &Form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+   }
+   &Form * {
+    margin-top: 8px;
+   } 
+   &Title {
+    text-transform : uppercase;
+    font-weight : bold;
+    text-align: center;
+   }
+   &InptPassword {
+    background-color: #e7e7e7;
+    border: none;
+    height: 35px;
+   }
+   &Password,&Req,&Entr {
+    border-radius: 0;
+    background-color: #8281f8;
+    color: white;
+    text-transform : uppercase;
+    font-weight : bold;
+    &:hover {
+    opacity: 80%;
+   }
+}
+   }
+   
