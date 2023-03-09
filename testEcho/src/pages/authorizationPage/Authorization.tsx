@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import MaskedInput from "./components/MaskedPhoneInput";
 
 import style from "./Authorization.module.scss";
+import { getUser } from "../../slice/userSlice";
 
 function Authorization() {
+  const dispatch = useAppDispatch();
+
   const [phone, setPhone] = useState(localStorage.getItem("formphone") || "");
   const [statusRememberMe, setstatusRememberMe] = useState(
     checkStatus() || false
   );
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
 
   function checkStatus() {
     return localStorage.getItem("statusRememberMe") === "false" ? false : true;
@@ -21,6 +25,10 @@ function Authorization() {
     }
   }
 
+  function changePassword(event: React.ChangeEvent<HTMLInputElement>): void {
+    setPassword(event.target.value);
+  }
+
   function rememberMe(event: React.ChangeEvent<HTMLInputElement>): void {
     localStorage.setItem("statusRememberMe", String(event?.target.checked));
     setstatusRememberMe((prev) => !prev);
@@ -28,6 +36,11 @@ function Authorization() {
 
   function swapPassword() {
     setShowPassword((prev) => !prev);
+  }
+
+  function handleLogin(event: React.ChangeEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    dispatch(getUser(phone, password));
   }
 
   return (
@@ -46,12 +59,16 @@ function Authorization() {
           className={style.AuthorizationInptPassword}
           placeholder="Введите пароль"
           type={!showPassword ? "password" : "none"}
+          value={password}
+          onChange={changePassword}
         ></input>
         <label>
           Показать пароль{" "}
           <input type={"checkbox"} onChange={swapPassword}></input>
         </label>
-        <button className={style.AuthorizationEntr}>Вход</button>
+        <button className={style.AuthorizationEntr} onClick={handleLogin}>
+          Вход
+        </button>
         <label>
           Запомнить меня
           <input
