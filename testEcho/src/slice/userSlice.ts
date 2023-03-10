@@ -1,4 +1,4 @@
-import * as userApi from "../api/UserApi";
+import * as userApi from "../api/userApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TypeDataAuth } from "../Types";
 import { UserState } from "../Types";
@@ -12,6 +12,7 @@ export const getUser = createAsyncThunk(
   "user/token",
   async (dataAuth: TypeDataAuth) => {
     const token = await userApi.requestAuth(dataAuth);
+    console.log(token);
     return token;
   }
 );
@@ -24,10 +25,13 @@ export const articlesSlice = createSlice({
     builder
       .addCase(getUser.fulfilled, (state, action) => {
         const tokenUser = action.payload;
+        console.log(tokenUser);
         state.token = tokenUser.token;
       })
       .addCase(getUser.rejected, (state, action) => {
+        console.log(action.error.message);
         state.error = action.error.message;
+        console.log(state.error);
       });
   },
 });

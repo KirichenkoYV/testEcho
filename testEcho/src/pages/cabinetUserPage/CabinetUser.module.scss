@@ -1,0 +1,14 @@
+.CabinetUser {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+ &Logout { border-radius: 0;
+    background-color: #8281f8;
+    color: white;
+    text-transform : uppercase;
+    font-weight : bold;
+    &:hover {
+    opacity: 80%;}
+}
+}
