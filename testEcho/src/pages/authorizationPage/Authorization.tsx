@@ -3,11 +3,16 @@ import MaskedInput from "./components/MaskedPhoneInput";
 
 import style from "./Authorization.module.scss";
 import { getUser } from "../../slice/userSlice";
-import { useAppDispatch } from "../../store/Store";
+import { RootState, useAppDispatch } from "../../store/Store";
+import { useSelector } from "react-redux";
 
 function Authorization() {
   const dispatch = useAppDispatch();
-
+  function handleLogin(): void {
+    const dataAuth = { phone: phone, password: password };
+    dispatch(getUser(dataAuth));
+  }
+  const error = useSelector((state: RootState) => state.user.error);
   const [phone, setPhone] = useState<string>(
     localStorage.getItem("formphone") || ""
   );
@@ -41,11 +46,6 @@ function Authorization() {
     setShowPassword((prev) => !prev);
   }
 
-  function handleLogin(): void {
-    const dataAuth = { phone: phone, password: password };
-    dispatch(getUser(dataAuth));
-  }
-
   return (
     <div className={style.Authorization}>
       <div className={style.AuthorizationForm}>
@@ -65,6 +65,7 @@ function Authorization() {
           value={password}
           onChange={changePassword}
         ></input>
+        {error && <div className={style.AuthorizationError}>{error}</div>}
         <label>
           Показать пароль{" "}
           <input type={"checkbox"} onChange={swapPassword}></input>
