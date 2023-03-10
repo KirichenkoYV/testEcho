@@ -5,6 +5,7 @@ import style from "./Authorization.module.scss";
 import { getUser } from "../../slice/userSlice";
 import { RootState, useAppDispatch } from "../../store/Store";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Authorization() {
   const dispatch = useAppDispatch();
@@ -82,7 +83,9 @@ function Authorization() {
           ></input>
         </label>
         <button className={style.AuthorizationPassword}>Забыли пароль?</button>
-        <button className={style.AuthorizationReq}>Регистрация </button>
+        <Link to="/register">
+          <button className={style.AuthorizationReq}>Регистрация</button>
+        </Link>
       </div>
     </div>
   );

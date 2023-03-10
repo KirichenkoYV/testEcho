@@ -1,23 +1,31 @@
 import * as userApi from "../api/userApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TypeDataAuth } from "../Types";
-import { UserState } from "../Types";
+import { TypeDataAuth, TypeNewUser, UserState } from "../Types";
 
 const initialState: UserState = {
   token: "",
   error: undefined,
+  errors: undefined,
 };
 
 export const getUser = createAsyncThunk(
   "user/token",
   async (dataAuth: TypeDataAuth) => {
     const token = await userApi.requestAuth(dataAuth);
-    console.log(token);
     return token;
   }
 );
 
-export const articlesSlice = createSlice({
+export const getNewUser = createAsyncThunk(
+  "user/newUser",
+  async (dataNewUser: TypeNewUser) => {
+    const response = await userApi.requestRegister(dataNewUser);
+    console.log(response);
+    return response;
+  }
+);
+
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
@@ -25,15 +33,20 @@ export const articlesSlice = createSlice({
     builder
       .addCase(getUser.fulfilled, (state, action) => {
         const tokenUser = action.payload;
-        console.log(tokenUser);
         state.token = tokenUser.token;
       })
       .addCase(getUser.rejected, (state, action) => {
-        console.log(action.error.message);
         state.error = action.error.message;
-        console.log(state.error);
+      })
+      .addCase(getNewUser.fulfilled, (state, action) => {
+        const tokenNewUser = action.payload;
+        state.token = tokenNewUser.token;
+      })
+      .addCase(getNewUser.rejected, (state, action) => {
+        const arrErrors = JSON.parse(action.error.message);
+        state.errors = arrErrors;
       });
   },
 });
 
-export default articlesSlice.reducer;
+export default userSlice.reducer;

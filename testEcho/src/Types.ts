@@ -14,5 +14,20 @@ export interface MaskedProps {
 
 export interface UserState {
   token: string;
-  error: string | undefined
+  error: string | undefined;
+  errors: [TypeError] | undefined;
+}
+
+export interface TypeError {
+  value: string;
+  msg: string;
+  param: string;
+  location: string;
+}
+
+export interface TypeNewUser {
+  phone: string;
+  password: string;
+  name: string;
+  lastName: string;
 }
