@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getNewUser } from "../../slice/userSlice";
 import { RootState, useAppDispatch } from "../../store/Store";
 import MaskedPhoneInput from "../authorizationPage/components/MaskedPhoneInput";
@@ -6,9 +6,10 @@ import { useSelector } from "react-redux";
 
 import style from "./RegisterPage.module.scss";
 import { TypeError } from "../../Types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   function handlRegister(): void {
     const dataNewUser = {
@@ -18,7 +19,18 @@ function RegisterPage() {
       lastName: lastName,
     };
     dispatch(getNewUser(dataNewUser));
+    setShowError(true);
   }
+
+  const token = useSelector((state: RootState) => state.user.token);
+
+  console.log(token);
+
+  useEffect(() => {
+    if (token) {
+      navigate("/user");
+    }
+  }, [token]);
 
   const errors = useSelector((state: RootState) => state.user.errors);
 
@@ -27,6 +39,7 @@ function RegisterPage() {
   const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [phone, setPhone] = useState<string>("");
+  const [showError, setShowError] = useState(false);
   function swapPassword() {
     setShowPassword((prev) => !prev);
   }
@@ -47,55 +60,56 @@ function RegisterPage() {
 
   return (
     <div className={style.RegisterPage}>
-        <div className={style.RegisterPageForm}>
-          <div className={style.RegisterPageTitle}>Регистрация</div>
-          <input
-            placeholder="Введите ваше имя"
-            className={style.RegisterPageInputName}
-            value={firstName}
-            onChange={changeFirstName}
-          ></input>
-          <input
-            placeholder="Введите вашу фамилию"
-            className={style.RegisterPageInputLastName}
-            value={lastName}
-            onChange={changeLastName}
-          ></input>
-          <input
-            type={!showPassword ? "password" : "none"}
-            placeholder="Введите ваш пароль"
-            value={password}
-            className={style.RegisterPageInputPassword}
-            onChange={changePassword}
-          ></input>
-          <MaskedPhoneInput
-            id={"phone-input"}
-            name={"phone"}
-            required={true}
-            autoFocus={true}
-            value={phone}
-            onChange={changePhoneInput}
-          ></MaskedPhoneInput>
-          <label>
-            Показать пароль{" "}
-            <input type={"checkbox"} onChange={swapPassword}></input>
-          </label>
-          {errors &&
-            errors.map((el: TypeError) => (
-              <div className={style.RegisterPageError} key={el.param}>
-                {el.msg}
-              </div>
-            ))}
+      <div className={style.RegisterPageForm}>
+        <div className={style.RegisterPageTitle}>Регистрация</div>
+        <input
+          placeholder="Введите ваше имя"
+          className={style.RegisterPageInputName}
+          value={firstName}
+          onChange={changeFirstName}
+        ></input>
+        <input
+          placeholder="Введите вашу фамилию"
+          className={style.RegisterPageInputLastName}
+          value={lastName}
+          onChange={changeLastName}
+        ></input>
+        <input
+          type={!showPassword ? "password" : "none"}
+          placeholder="Введите ваш пароль"
+          value={password}
+          className={style.RegisterPageInputPassword}
+          onChange={changePassword}
+        ></input>
+        <MaskedPhoneInput
+          id={"phone-input"}
+          name={"phone"}
+          required={true}
+          autoFocus={true}
+          value={phone}
+          onChange={changePhoneInput}
+        ></MaskedPhoneInput>
+        <label>
+          Показать пароль{" "}
+          <input type={"checkbox"} onChange={swapPassword}></input>
+        </label>
+        {errors &&
+          showError &&
+          errors.map((el: TypeError) => (
+            <div className={style.RegisterPageError} key={el.param}>
+              {el.msg}
+            </div>
+          ))}
 
-          <Link to="/">
-            <button className={style.RegisterPagePassword}>
-              Вспомнили пароль?
-            </button>
-          </Link>
-          <button className={style.RegisterPageReq} onClick={handlRegister}>
-            Зарегистрироваться
+        <Link to="/">
+          <button className={style.RegisterPagePassword}>
+            Вспомнили пароль?
           </button>
-        </div>
+        </Link>
+        <button className={style.RegisterPageReq} onClick={handlRegister}>
+          Зарегистрироваться
+        </button>
+      </div>
     </div>
   );
 }

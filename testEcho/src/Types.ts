@@ -14,8 +14,15 @@ export interface MaskedProps {
 
 export interface UserState {
   token: string;
+  resetPass: TypeResRestartPass;
   error: string | undefined;
   errors: [TypeError] | undefined;
+}
+
+export interface TypeResRestartPass {
+  errors: [] | undefined;
+  message: string | undefined;
+  success: boolean | undefined;
 }
 
 export interface TypeError {
@@ -30,4 +37,14 @@ export interface TypeNewUser {
   password: string;
   name: string;
   lastName: string;
+}
+
+export interface TypeUserPhone {
+  phone: string;
+}
+
+export interface TypeDataNewPassword {
+  phone: string;
+  code: string;
+  password: string;
 }
