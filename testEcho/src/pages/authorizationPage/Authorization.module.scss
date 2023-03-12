@@ -5,11 +5,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     &Error {
       color  :rgb(206, 66, 31)
     }
-
    &Form {
     display: flex;
     flex-direction: column;
@@ -37,7 +35,6 @@
     font-weight : bold;
     &:hover {
     opacity: 80%;
-    
    }
 }
    }
