@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   TypeDataAuth,
   TypeDataNewPassword,
+  TypeDataUser,
   TypeNewUser,
   TypeUserPhone,
   UserState,
@@ -13,6 +14,7 @@ const initialState: UserState = {
   resetPass: { errors: undefined, message: undefined, success: undefined },
   error: undefined,
   errors: undefined,
+  resDataUser: undefined,
 };
 
 export const getUser = createAsyncThunk(
@@ -43,6 +45,14 @@ export const getUserNewPassword = createAsyncThunk(
   "user/resetPasswordCode",
   async (dataNewPassword: TypeDataNewPassword) => {
     const response = await userApi.requestPasswordCodeReset(dataNewPassword);
+    return response;
+  }
+);
+
+export const getUserToken = createAsyncThunk(
+  "user/dataUser",
+  async (dataUser: TypeDataUser) => {
+    const response = await userApi.requestDataUser(dataUser);
     return response;
   }
 );
@@ -83,14 +93,21 @@ export const userSlice = createSlice({
         state.error = arrErrors;
       })
       .addCase(getUserNewPassword.fulfilled, (state, action) => {
-        const tokenNewUser = action.payload;
-        state.token = tokenNewUser.token;
+        const tokenUserNewPassword = action.payload;
+        state.token = tokenUserNewPassword.token;
       })
       .addCase(getUserNewPassword.rejected, (state, action) => {
         const arrErrors = JSON.parse(
           action.error.message ? action.error.message : ""
         );
         state.errors = arrErrors;
+      })
+      .addCase(getUserToken.fulfilled, (state, action) => {
+        const dataUser = action.payload;
+        state.resDataUser = dataUser;
+      })
+      .addCase(getUserToken.rejected, (state, action) => {
+        state.error = action.error.message;
       });
   },
 });

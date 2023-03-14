@@ -1,0 +1,15 @@
+.CabinetUser {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.CabinetUserLogout {
+  border-radius: 0;
+  background-color: #8281f8;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.CabinetUserLogout:hover {
+  opacity: 80%;
+}/*# sourceMappingURL=CabinetUser.module.css.map */
