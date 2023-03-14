@@ -1,0 +1,38 @@
+.RegisterPage {
+  width: 30em;
+  height: 30em;
+}
+.RegisterPageError {
+  color: rgb(206, 66, 31);
+}
+.RegisterPageForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.RegisterPageForm * {
+  margin-top: 8px;
+}
+.RegisterPageTitle {
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+}
+.RegisterPagePassword, .RegisterPageReq {
+  border-radius: 0;
+  background-color: #8281f8;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 257px;
+}
+.RegisterPagePassword:hover, .RegisterPageReq:hover {
+  opacity: 80%;
+}
+.RegisterPageInputLastName, .RegisterPageInputName, .RegisterPageInputPassword {
+  background-color: #e7e7e7;
+  border: none;
+  height: 35px;
+  width: 204px;
+}/*# sourceMappingURL=RegisterPage.module.css.map */

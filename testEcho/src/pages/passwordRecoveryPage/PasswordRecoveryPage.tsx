@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUserPhone } from "../../slice/userSlice";
 import { RootState, useAppDispatch } from "../../store/Store";
@@ -11,6 +11,8 @@ import style from "./PasswordRecoveryPage.module.scss";
 function PasswordRecoveryPage() {
   const dispatch = useAppDispatch();
 
+  const statusRes = useSelector((state: RootState) => state.user.resetPass);
+
   const [phone, setPhone] = useState<string>(
     localStorage.getItem("formphonerestart") || ""
   );
@@ -20,24 +22,8 @@ function PasswordRecoveryPage() {
     useState<boolean>(false);
   const [sendSmsButtonText, setSendSmsButtonText] =
     useState<string>("Получить смс код");
-
-  const statusRes = useSelector((state: RootState) => state.user.resetPass);
-
-  function changePhoneInput(event: React.ChangeEvent<HTMLInputElement>): void {
-    setPhone(event?.target.value);
-    localStorage.setItem("formphonerestart", event?.target.value);
-  }
-
-  function getPassword(): void {
-    if (statusRes.message) {
-      setRestartCount((prev) => !prev);
-    } else {
-      const userPhone = { phone: phone };
-      dispatch(getUserPhone(userPhone));
-      
-    }
-  }
-
+  const [numberChange, setNumberChange] = useState<boolean>(false);
+  
   useEffect(() => {
     if (statusRes.success || restartCount) {
       setSecondsLeft(20);
@@ -58,6 +44,23 @@ function PasswordRecoveryPage() {
       setSendSmsButtonText("Получить код проверки");
     }
   }, [secondsLeft]);
+
+  function changePhoneInput(event: React.ChangeEvent<HTMLInputElement>): void {
+    setPhone(event?.target.value);
+    localStorage.setItem("formphonerestart", event?.target.value);
+    setNumberChange(false);
+  }
+
+  function getPassword(): void {
+    if (statusRes.success && numberChange) {
+      localStorage.getItem("formphonerestart");
+      setRestartCount((prev) => !prev);
+    } else {
+      const userPhone = { phone: phone };
+      dispatch(getUserPhone(userPhone));
+      setNumberChange(true);
+    }
+  }
 
   return (
     <div className={style.PasswordRecovery}>

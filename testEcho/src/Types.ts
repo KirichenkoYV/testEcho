@@ -17,12 +17,20 @@ export interface UserState {
   resetPass: TypeResRestartPass;
   error: string | undefined;
   errors: [TypeError] | undefined;
+  resDataUser: TypeResDataUser | undefined;
 }
 
 export interface TypeResRestartPass {
   errors: [] | undefined;
   message: string | undefined;
   success: boolean | undefined;
+}
+
+export interface TypeResDataUser {
+  id: number;
+  phone: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface TypeError {
@@ -47,4 +55,8 @@ export interface TypeDataNewPassword {
   phone: string;
   code: string;
   password: string;
+}
+
+export interface TypeDataUser {
+  token: string | null
 }

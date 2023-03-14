@@ -1,6 +1,7 @@
 import {
   TypeDataAuth,
   TypeDataNewPassword,
+  TypeDataUser,
   TypeNewUser,
   TypeUserPhone,
 } from "../Types";
@@ -66,7 +67,7 @@ export const requestPasswordCodeReset = async (
   dataNewPassword: TypeDataNewPassword
 ) => {
   const url =
-    "https://backend-front-test.dev.echo-company.ru//api/user/forgot-end";
+    "https://backend-front-test.dev.echo-company.ru/api/user/forgot-end";
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -81,6 +82,21 @@ export const requestPasswordCodeReset = async (
   const data = await res.json();
   if (!res.ok) {
     throw new Error(JSON.stringify(data.errors));
+  }
+  return data;
+};
+
+export const requestDataUser = async (dataUser: TypeDataUser) => {
+  const url = "https://backend-front-test.dev.echo-company.ru/api/user";
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: dataUser.token ?? ''
+    },
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message);
   }
   return data;
 };

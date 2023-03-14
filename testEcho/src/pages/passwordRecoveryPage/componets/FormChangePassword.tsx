@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getUserNewPassword } from "../../../slice/userSlice";
 import { RootState, useAppDispatch } from "../../../store/Store";
 import { useSelector } from "react-redux";
 
 import style from "./FormChangePassword.module.scss";
+import { useNavigate } from "react-router-dom";
 
 interface TypeProps {
   phone: string;
@@ -11,10 +12,20 @@ interface TypeProps {
 
 function FormChangePassword({ phone }: TypeProps) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(true);
   const [codeSms, setCodeSms] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [showError, setShowError] = useState(false);
+
+  const token = useSelector((state: RootState) => state.user.token);
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token);
+      navigate("/user");
+    }
+  }, [token]);
 
   function handleNewPassword() {
     const dataNewPassword = {
@@ -39,7 +50,7 @@ function FormChangePassword({ phone }: TypeProps) {
   }
 
   const arrErrors = useSelector((state: RootState) => state.user.errors);
-  
+
   return (
     <div className={style.FormChangePassword}>
       <div className={style.FormChangePasswordTitle}>
@@ -71,10 +82,7 @@ function FormChangePassword({ phone }: TypeProps) {
       {arrErrors &&
         showError &&
         arrErrors.map((el, index) => (
-          <div
-            className={style.FormChangePasswordError}
-            key={index}
-          >
+          <div className={style.FormChangePasswordError} key={index}>
             {el.msg}
           </div>
         ))}
