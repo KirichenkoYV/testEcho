@@ -1,0 +1,40 @@
+.Authorization {
+  width: 20em;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.AuthorizationError {
+  color: rgb(206, 66, 31);
+}
+.AuthorizationForm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.AuthorizationForm * {
+  margin-top: 8px;
+}
+.AuthorizationTitle {
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+}
+.AuthorizationInptPassword {
+  background-color: #e7e7e7;
+  border: none;
+  height: 35px;
+}
+.AuthorizationPassword, .AuthorizationReq, .AuthorizationEntr {
+  border-radius: 0;
+  background-color: #8281f8;
+  color: white;
+  width: 208px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.AuthorizationPassword:hover, .AuthorizationReq:hover, .AuthorizationEntr:hover {
+  opacity: 80%;
+}/*# sourceMappingURL=Authorization.module.css.map */

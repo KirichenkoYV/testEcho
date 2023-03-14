@@ -1,0 +1,43 @@
+.RegisterPage {
+    width: 30em;
+    height: 30em;
+    
+    &Error {
+        color  :rgb(206, 66, 31)
+    }
+    &Form {
+        display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+&Form * { 
+    margin-top: 8px;
+    }
+    
+&Title {
+    text-transform : uppercase;
+    font-weight : bold;
+    text-align: center;    
+}
+&Password,&Req {
+    border-radius: 0;
+    background-color: #8281f8;
+    color: white;
+    text-transform : uppercase;
+    font-weight : bold;
+    width: 257px;
+    &:hover {
+    opacity: 80%;
+ }
+}
+
+&InputLastName, &InputName, &InputPassword {
+    background-color: #e7e7e7;
+    border: none;
+    height: 35px;
+    width: 204px;
+}
+
+}
+
